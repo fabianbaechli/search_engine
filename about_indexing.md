@@ -13,12 +13,12 @@ These are the two main criteria for a good index:
 The forward index is the mapping of a list of terms to their corresponding document. The list could look like this: 
 ```json
 {
-  document_1: [
-    {term: "house", count: 4},
-    {term: "car", count: 9}
-  ], document_2: [
-    {term: "cat", count: 5},
-    {term: "car", count: 6}
+  "document_1": [
+    {"term": "house", "count": 4},
+    {"term": "car", "count": 9}
+  ], "document_2": [
+    {"term": "cat", "count": 5},
+    {"term": "car", "count": 6}
   ]
 }
 ```
@@ -28,20 +28,20 @@ The `count` property is how many times the term occurs in the document
 The reverse index is the mapping of documents to a term. The reverse index is created after creating the forward index list. 
 ```json
 {
-  house: {
-    tf_idf: 0.3,
-    documents: [
+  "house": {
+    "tf_idf": 0.3,
+    "documents": [
       "document_1"
     ]
-  }, car: {
-    tf_idf: 0,
-    documents: [
+  }, "car": {
+    "tf_idf": 0,
+    "documents": [
       "document_1",
       "document_2"
     ]
-  }, cat: {
-    tf_idf: 0.3,
-    documents: [
+  }, "cat": {
+    "tf_idf": 0.3,
+    "documents": [
       "document_2"
     ]
   }

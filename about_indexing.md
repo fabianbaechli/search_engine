@@ -25,7 +25,7 @@ The forward index is the mapping of a list of terms to their corresponding docum
 The `count` property is how many times the term occurs in the document
 
 ### Reverse index
-The reverse index is the mapping of documents to a term. The reverse index is created after creating the forward index list. 
+The reverse index is the mapping of documents to a term. The reverse index is created after creating the forward index list.
 ```json
 {
   "house": {
@@ -48,4 +48,4 @@ The reverse index is the mapping of documents to a term. The reverse index is cr
 }
 ```
 
-More information about tf_idf can be found [here](https://github.com/fabianbaechli/sentiment_classification_with_tf/blob/master/sentiment_classification_with_tf/documentation/about_text_mining.md#idf)
+More information about idf can be found [here](https://github.com/fabianbaechli/sentiment_classification_with_tf/blob/master/sentiment_classification_with_tf/documentation/about_text_mining.md#idf)

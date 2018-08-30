@@ -14,11 +14,11 @@ The forward index is the mapping of a list of terms to their corresponding docum
 ```json
 {
   "document_1": [
-    {"term": "house", "count": 4},
-    {"term": "car", "count": 9}
+    {"term": "house", "count": 4, "tf_idf": 1.2},
+    {"term": "car", "count": 9, "tf_idf": 0}
   ], "document_2": [
-    {"term": "cat", "count": 5},
-    {"term": "car", "count": 6}
+    {"term": "cat", "count": 5, "tf_idf": 1.5},
+    {"term": "car", "count": 6, "tf_idf": 0}
   ]
 }
 ```
@@ -29,18 +29,18 @@ The reverse index is the mapping of documents to a term. The reverse index is cr
 ```json
 {
   "house": {
-    "tf_idf": 0.3,
+    "idf": 0.3,
     "documents": [
       "document_1"
     ]
   }, "car": {
-    "tf_idf": 0,
+    "idf": 0,
     "documents": [
       "document_1",
       "document_2"
     ]
   }, "cat": {
-    "tf_idf": 0.3,
+    "idf": 0.3,
     "documents": [
       "document_2"
     ]

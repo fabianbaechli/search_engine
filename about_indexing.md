@@ -48,4 +48,4 @@ The reverse index is the mapping of documents to a term. The reverse index is cr
 }
 ```
 
-More information about idf can be found [here](https://github.com/fabianbaechli/sentiment_classification_with_tf/blob/master/sentiment_classification_with_tf/documentation/about_text_mining.md#idf)
+More information about idf can be found [here](https://github.com/fabianbaechli/sentiment_classification_with_tf/blob/master/sentiment_classification_with_tf/documentation/about_text_mining.md#idf). tf_idf is just the multiplicatio of the term frequency in a document (count property) and the idf of a term in a collection of documents

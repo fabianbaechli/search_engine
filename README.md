@@ -5,7 +5,7 @@ I don't know yet if an NLP approach to the search engine problem is even valid o
 ## TODO
 - Importing a great amount of websites into a database [in progress]
   - Downloading huge amount of wiki pages [:heavy_check_mark:]
-  - Importing them into a mysql database [in progress]
-- Deciding, which indexing method sounds practical and interesting (document term matrix maybe)
-- Indexing the websites in the decided manner
-- Try to match search queries to documents by their similarity. Or isn't that how this works? I don't know yet. 
+  - Importing them into a mysql database [:heavy_check_mark:]
+- Deciding, which indexing method sounds practical and interesting (document term matrix maybe) [:heavy_check_mark:] (went for reverse index)
+- Indexing the websites in the decided manner [:heavy_check_mark:]
+- Try to match search queries to documents by their similarity. Or isn't that how this works? I don't know yet. [:heavy_check_mark:] (listing results sorted by their tf_idf)

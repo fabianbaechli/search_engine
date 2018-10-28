@@ -39,7 +39,9 @@ public class IndexDocuments {
           String content = rs.getString("content");
           title = title.replaceAll("_", " ");
           // The term weighting for headers is 100
-          words.put(title, 100);
+          for (String headerWord : title.split(" ")) {
+            words.put(normalizeString(headerWord), 50);
+          }
 
           for (String line : content.split("\n")) {
             for (String word : line.split(" ")) {

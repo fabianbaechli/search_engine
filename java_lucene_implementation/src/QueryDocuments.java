@@ -10,13 +10,25 @@ import org.apache.lucene.search.ScoreDoc;
 import org.apache.lucene.search.TopDocs;
 import org.apache.lucene.store.Directory;
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.util.HashMap;
 
 public class QueryDocuments {
   private Directory index;
+  private HashMap<String, ReverseIndex> loadedReverseIndex;
 
   public QueryDocuments(Directory index) {
     this.index = index;
+    try {
+      FileInputStream fi = new FileInputStream(new File(IndexDocuments.REVERSE_INDEX_FILE_LOCATION));
+      ObjectInputStream oi = new ObjectInputStream(fi);
+      this.loadedReverseIndex = (HashMap) oi.readObject();
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
   }
 
   public void query(String queryString) throws IOException, ParseException {
@@ -45,6 +57,24 @@ public class QueryDocuments {
     // reader can only be closed when there
     // is no need to access the documents any more.
     reader.close();
+  }
 
+  public void search(String searchQuery) {
+    searchQuery = IndexDocuments.normalizeString(searchQuery);
+    HashMap<String, ReverseIndex> reverseIndices = new HashMap<>();
+    for (String word : searchQuery.split("-")) {
+      ReverseIndex reverseIndex = loadedReverseIndex.get(searchQuery);
+      reverseIndices.put(word, reverseIndex);
+    }
+    reverseIndices.forEach((key, value) -> {
+      if (value != null) {
+        System.out.println("the term: " + key + " was found in: " + value.getDocuments().size() + " documents");
+        value.getDocuments().forEach(doc -> {
+          System.out.println(((WikiDoc) doc).getHeader() + " : " + ((WikiDoc)doc).getIdfTf());
+        });
+      } else {
+        System.out.println("The term: " + key + " was not found");
+      }
+    });
   }
 }

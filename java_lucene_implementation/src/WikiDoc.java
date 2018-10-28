@@ -5,7 +5,6 @@ public class WikiDoc implements Serializable {
   private String header;
   private String content;
   private HashMap<String, Integer> countedWords;
-  private double idfTf = 0;
 
   public WikiDoc(String header, String content, HashMap<String, Integer> countedWords) {
     this.header = header;
@@ -37,21 +36,12 @@ public class WikiDoc implements Serializable {
     return countedWords;
   }
 
-  public void setIdfTf(double idfTf) {
-    this.idfTf = idfTf;
-  }
-
-  public double getIdfTf() {
-    return idfTf;
-  }
-
   @Override
   public String toString() {
     return "WikiDoc{" +
             "header='" + header + '\'' +
             ", content='" + content + '\'' +
             ", countedWords=" + countedWords +
-            ", idfTf=" + idfTf +
             '}';
   }
 }

@@ -4,10 +4,12 @@ import org.apache.lucene.document.Field;
 import org.apache.lucene.document.TextField;
 import org.apache.lucene.index.IndexWriter;
 import org.apache.lucene.index.IndexWriterConfig;
-import org.apache.lucene.store.Directory;
 
 import java.io.*;
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.Statement;
 import java.text.Normalizer;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -18,17 +20,11 @@ public class IndexDocuments {
   public static final String JDBC_PASSWORD = "password";
   public static final String FORWARD_INDEX_FILE_LOCATION = "/Users/Fabian/Desktop/selfmade_index/forward_index";
   public static final String REVERSE_INDEX_FILE_LOCATION = "/Users/Fabian/Desktop/selfmade_index/reverse_index";
-  private Directory index;
-
-  public IndexDocuments(Directory index) {
-    this.index = index;
-  }
 
   public void buildForwardIndex(String queryString) {
     try {
       StandardAnalyzer analyzer = new StandardAnalyzer();
       IndexWriterConfig config = new IndexWriterConfig(analyzer);
-      IndexWriter w = new IndexWriter(index, config);
 
       Connection connection = DriverManager.getConnection(JDBC_CONNECTION_STRING, JDBC_USERNAME, JDBC_PASSWORD);
       System.out.println("Database connected!");
@@ -42,13 +38,13 @@ public class IndexDocuments {
           String title = rs.getString("title");
           String content = rs.getString("content");
           title = title.replaceAll("_", " ");
-
           // The term weighting for headers is 100
           words.put(title, 100);
 
           for (String line : content.split("\n")) {
             for (String word : line.split(" ")) {
-              int wordOccurrences = words.getOrDefault(word, 0);
+              word = normalizeString(word);
+              Integer wordOccurrences = words.getOrDefault(word, 0);
               words.put(word, wordOccurrences + 1);
             }
           }
@@ -62,7 +58,6 @@ public class IndexDocuments {
           System.out.println(count);
         }
       }
-      w.close();
       FileOutputStream f = new FileOutputStream(new File(FORWARD_INDEX_FILE_LOCATION));
       ObjectOutputStream o = new ObjectOutputStream(f);
       o.writeObject(documents);
@@ -83,19 +78,19 @@ public class IndexDocuments {
       HashMap<String, ReverseIndex> reverseIndices = new HashMap<>();
       final int[] iterationCount = {0};
       System.out.println("read the forward index");
-      documents.forEach(doc -> {
-        HashMap<String, Integer> words = ((WikiDoc) doc).getCountedWords();
+      documents.forEach(temp -> {
+        WikiDoc doc = (WikiDoc) temp;
+        HashMap<String, Integer> words = doc.getCountedWords();
         words.forEach((word, count) -> {
           // if the term is seen for the first time
           word = normalizeString(word);
           ReverseIndex reverseIndex = reverseIndices.remove(word);
           if (reverseIndex == null) {
-            // TODO save the real document
             ReverseIndex index = new ReverseIndex(Math.log10(documents.size()), doc);
             reverseIndices.put(word, index);
           } else {
             reverseIndex.setIdf(Math.log10(documents.size() / reverseIndex.getDocuments().size() + 1));
-            ((WikiDoc) doc).setIdfTf(reverseIndex.getIdf() * count);
+
             reverseIndex.addDocument(doc);
             reverseIndices.put(word, reverseIndex);
           }
@@ -105,6 +100,7 @@ public class IndexDocuments {
           System.out.println(iterationCount[0]);
         }
       });
+
       FileOutputStream f = new FileOutputStream(new File(REVERSE_INDEX_FILE_LOCATION));
       ObjectOutputStream o = new ObjectOutputStream(f);
       o.writeObject(reverseIndices);

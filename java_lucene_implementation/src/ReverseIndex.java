@@ -3,9 +3,9 @@ import java.util.ArrayList;
 
 public class ReverseIndex implements Serializable {
   private double idf;
-  private ArrayList<Object> documents;
+  private ArrayList<WikiDoc> documents;
 
-  public ReverseIndex(double idf, Object firstDocument) {
+  public ReverseIndex(double idf, WikiDoc firstDocument) {
     this.idf = idf;
     this.documents = new ArrayList<>();
     addDocument(firstDocument);
@@ -15,7 +15,7 @@ public class ReverseIndex implements Serializable {
     return idf;
   }
 
-  public ArrayList<Object> getDocuments() {
+  public ArrayList<WikiDoc> getDocuments() {
     return documents;
   }
 
@@ -23,7 +23,7 @@ public class ReverseIndex implements Serializable {
     this.idf = idf;
   }
 
-  public void addDocument(Object doc) {
+  public void addDocument(WikiDoc doc) {
     if (!documents.contains(doc)) {
       documents.add(doc);
     }

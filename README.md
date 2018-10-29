@@ -3,7 +3,7 @@ This repo is me trying at implementing a search engine. I'm interested in NLP so
 I don't know yet if an NLP approach to the search engine problem is even valid or highly unpractical.
 
 ## TODO
-- Importing a great amount of websites into a database [in progress]
+- Importing a great amount of websites into a database [:heavy_check_mark:]
   - Downloading huge amount of wiki pages [:heavy_check_mark:]
   - Importing them into a mysql database [:heavy_check_mark:]
 - Deciding, which indexing method sounds practical and interesting (document term matrix maybe) [:heavy_check_mark:] (went for reverse index)

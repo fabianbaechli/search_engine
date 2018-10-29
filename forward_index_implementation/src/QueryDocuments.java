@@ -31,7 +31,6 @@ public class QueryDocuments {
       if (value != null) {
         System.out.println("the term: " + key + " was found in: " + value.getDocuments().size() + " documents");
         value.getDocuments().forEach(doc -> {
-//          System.out.println(doc.getHeader() + " : " + doc.getCountedWords().get(key) * value.getIdf());
           sortedResults.put(doc.getHeader(), doc.getCountedWords().get(key) * value.getIdf());
         });
       } else {
@@ -39,12 +38,8 @@ public class QueryDocuments {
       }
     });
     Object[] a = sortedResults.entrySet().toArray();
-    Arrays.sort(a, new Comparator() {
-      public int compare(Object o1, Object o2) {
-        return ((Map.Entry<String, Double>) o2).getValue()
-                .compareTo(((Map.Entry<String, Double>) o1).getValue());
-      }
-    });
+    Arrays.sort(a, (Comparator) (o1, o2) -> ((Map.Entry<String, Double>) o2).getValue()
+            .compareTo(((Map.Entry<String, Double>) o1).getValue()));
     for (Object e : a) {
       System.out.println(((Map.Entry<String, Double>) e).getKey() + " : "
               + ((Map.Entry<String, Double>) e).getValue());
